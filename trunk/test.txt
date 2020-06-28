@@ -1,0 +1,74 @@
+﻿
+
+7516-029701
+6000-142102
+Q10H4340001
+423G4310007
+000906123456
+
+
+
+localbus w 0x90 1 0x5f3
+
+['E:\\framwork-test\\GUI\\AutoES5801\\AutoES5801BurnIn\\AutoES5801BurnIn.py', 'C
+S1-COM13-Log', '10.10.0.2', '10013', 'CS1-COM13']
+
+python AutoES5801BurnIn.py  CS1-COM13-Log  10.10.0.2 10013  CS1-COM13
+
+
+Q10H4340001
+000906123456
+
+
+
+bootcmd boot_tftp Centec-HW-48X6Q4T-system-V2.bin
+setenv netmask 255.255.255.0
+setenv serverip 10.5.0.26
+setenv gatewayip 10.10.0.1
+setenv ipaddr 10.10.0.156
+setenv ethaddr 00:09:06:24:F0:7E
+
+
+
+configure terminal
+no management ip address dhcp
+management ip address 10.50.0.188/16
+management route add gateway 10.50.0.1 
+
+exit
+ping mgmt-if 10.10.0.122
+
+
+//write image to flash    起来后升级image
+copy mgmt-if tftp://10.5.0.26/Centec-HW-48X6Q4T-system-V2.bin flash:/boot/centecOS-HW-48X6Q4T-system-V2.bin
+boot system flash:/boot/centecOS-HW-48X6Q4T-system-V2.bin
+
+
+sys_eeprom set 0x21 HW-48X4Q4T                     
+sys_eeprom set 0x26 16                            
+sys_eeprom set 0x28 powerpc-centec_hw_48x4q4t-r0  
+sys_eeprom set 0x2a  78                         
+sys_eeprom set 0x25 "05/30/2016 12:12:12"                    
+sys_eeprom set 0x23 sn12                        
+sys_eeprom set 0x24  00:1E:08:0A:56:1C                      
+sys_eeprom write
+
+
+#测试风扇转速相关
+lcsh# write epld 0 0x30 0xf
+lcsh# read epld 0 0x20
+        0x0020: 0x00
+lcsh# read epld 0 0x21
+        0x0021: 0x00
+lcsh# read epld 0 0x22
+        0x0022: 0x00
+lcsh# read epld 0 0x23
+        0x0023: 0x00
+        
+        
+
+
+
+
+
+
