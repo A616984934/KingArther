@@ -1,0 +1,41 @@
+ssh-keygen -t rsa -C "邮箱"
+创建本地git_key ，方便拷贝到远程仓库
+
+当git 出现 failed to push some refs to git
+
+使用git push -u  origin master 无法解决此问题，或者会出现此问题
+
+引起的主要原因可能是因为某些git上的文件在本地并没有
+
+git pull --rebase origin master  通过此命令，解决远程和本地的冲突；
+
+之后再使用git     push 解决本地冲突
+
+
+git  tag  操作：
+
+git  tag  -a  V1.1 -m  '解析版本'
+
+git    tag  查看tag
+git    show  V1.1   查看tag1.1版本内容
+git    push   origin    --tags   将当前tags同步到远程代码库
+
+
+回归的一般步骤：
+
+如果发现一个严重的问题，需要回滚
+
+git  tag   -d   V1.1     删除tag号
+
+git  push  origin : regs/tags/V1.1  推送空的版本名，以达到删除线上版本的目标
+
+git  fetch  origin  tag  V1.1  获取远程版本
+
+
+
+
+
+
+
+
+
